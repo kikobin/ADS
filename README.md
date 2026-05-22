@@ -155,4 +155,64 @@ When you need the shortest path, or when you expect the answer to be close to th
 
 **Limitations of DFS?**  
 Can cause stack overflow on very deep graphs due to recursion. Does not guarantee shortest path. Can get stuck exploring a very long wrong path before backtracking.
+---
+
+## G. Bonus Task: Dijkstra's Algorithm (Shortest Path)
+
+### Overview
+
+Dijkstra's algorithm finds the shortest path from a given starting vertex to **all other vertices** in a weighted directed graph. Unlike BFS (which works on unweighted graphs), Dijkstra considers edge weights and always picks the closest unvisited vertex next.
+
+---
+
+### Changes Made
+
+#### `Edge.java`
+Added a `weight` field with a new constructor `Edge(source, destination, weight)`. The original no-arg constructor is kept for backwards compatibility and defaults weight to 1.
+
+#### `Graph.java`
+- Added a second adjacency list: `Map<Integer, List<int[]>> weightedAdjList` where each `int[]` stores `{neighbor, weight}`.
+- Added `addWeightedEdge(int from, int to, int weight)` to populate the weighted list.
+- Added `dijkstra(int start)` — see algorithm below.
+
+#### `Main.java`
+Added a demo weighted graph with 6 vertices demonstrating Dijkstra from vertex 0.
+
+---
+
+### Algorithm: `void dijkstra(int start)`
+
+**Step-by-step:**
+1. Initialize `dist[]` array with `Integer.MAX_VALUE` (infinity) for all vertices; set `dist[start] = 0`
+2. Use a `visited[]` boolean array to track finalized vertices
+3. Repeat V times:
+   - Find the unvisited vertex `u` with the smallest `dist[u]` (simple loop, no priority queue)
+   - Mark `u` as visited
+   - For each neighbor `v` of `u` with edge weight `w`: if `dist[u] + w < dist[v]`, update `dist[v]`
+4. Print distances to all vertices
+
+**Time complexity:** O(V²) — uses a simple minimum scan instead of a priority queue (as allowed by task requirements)
+
+**Space complexity:** O(V) for the `dist[]` and `visited[]` arrays
+
+---
+
+### Example Output
+
+Graph edges: `0->1 (4), 0->2 (1), 2->1 (2), 1->3 (1), 2->3 (5), 3->4 (3), 4->5 (2)`
+
+```
+=== Dijkstra's Shortest Paths from Vertex 0 ===
+  Vertex 0: distance = 0
+  Vertex 1: distance = 3    (0->2->1, cost 1+2=3, shorter than direct 0->1 cost 4)
+  Vertex 2: distance = 1    (0->2)
+  Vertex 3: distance = 4    (0->2->1->3, cost 1+2+1=4)
+  Vertex 4: distance = 7    (0->2->1->3->4)
+  Vertex 5: distance = 9    (0->2->1->3->4->5)
+```
+
+### Key Insight
+
+Dijkstra's greedy strategy works because once a vertex is finalized (visited), we are guaranteed that no shorter path exists — provided all edge weights are non-negative.
+
 # ADS

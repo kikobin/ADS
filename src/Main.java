@@ -1,7 +1,6 @@
 public class Main {
     public static void main(String[] args) {
 
-        // ===== SMALL GRAPH (10 vertices) =====
         System.out.println("====== SMALL GRAPH (10 vertices) ======");
         Graph small = new Graph();
         for (int i = 0; i < 10; i++) {
@@ -25,7 +24,6 @@ public class Main {
         System.out.println("-- Traversals on small graph --");
         exp.runTraversals(small);
 
-        // ===== MEDIUM GRAPH (30 vertices) =====
         System.out.println("\n====== MEDIUM GRAPH (30 vertices) ======");
         Graph medium = new Graph();
         for (int i = 0; i < 30; i++) {
@@ -40,7 +38,6 @@ public class Main {
         System.out.println("-- Traversals on medium graph --");
         exp.runTraversals(medium);
 
-        // ===== LARGE GRAPH (100 vertices) =====
         System.out.println("\n====== LARGE GRAPH (100 vertices) ======");
         Graph large = new Graph();
         for (int i = 0; i < 100; i++) {
@@ -65,7 +62,24 @@ public class Main {
         e = System.nanoTime();
         System.out.println("  DFS time: " + (e - s) + " ns");
 
-        // ===== FULL PERFORMANCE TEST =====
         exp.runMultipleTests();
+
+        System.out.println("\n====== BONUS: Dijkstra's Shortest Path ======");
+        Graph weighted = new Graph();
+        for (int i = 0; i < 6; i++) weighted.addVertex(new Vertex(i));
+
+        weighted.addWeightedEdge(0, 1, 4);
+        weighted.addWeightedEdge(0, 2, 1);
+        weighted.addWeightedEdge(2, 1, 2);
+        weighted.addWeightedEdge(1, 3, 1);
+        weighted.addWeightedEdge(2, 3, 5);
+        weighted.addWeightedEdge(3, 4, 3);
+        weighted.addWeightedEdge(4, 5, 2);
+
+        System.out.println("Weighted graph edges:");
+        System.out.println("  0->1 (4), 0->2 (1), 2->1 (2), 1->3 (1), 2->3 (5), 3->4 (3), 4->5 (2)");
+        System.out.println();
+
+        weighted.dijkstra(0);
     }
 }

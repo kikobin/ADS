@@ -10,7 +10,6 @@ public class Experiment {
     }
 
     public void runTraversals(Graph g) {
-        // run both traversals and capture time
         long start, end;
 
         start = System.nanoTime();
@@ -33,14 +32,11 @@ public class Experiment {
 
             Graph g = buildGraph(n);
 
-            // time BFS
             long start = System.nanoTime();
-            // suppress output for big graphs
             redirectBfs(g, 0);
             long end = System.nanoTime();
             bfsTimes[i] = end - start;
 
-            // time DFS
             start = System.nanoTime();
             redirectDfs(g, 0);
             end = System.nanoTime();
@@ -53,24 +49,20 @@ public class Experiment {
         printResults();
     }
 
-    // builds a simple chain + some extra edges graph of size n
     private Graph buildGraph(int n) {
         Graph g = new Graph();
         for (int i = 0; i < n; i++) {
             g.addVertex(new Vertex(i));
         }
-        // chain edges
         for (int i = 0; i < n - 1; i++) {
             g.addEdge(i, i + 1);
         }
-        // add some extra edges to make it interesting
         for (int i = 0; i < n - 3; i += 3) {
             g.addEdge(i, i + 2);
         }
         return g;
     }
 
-    // run bfs without printing nodes (for timing only)
     private void redirectBfs(Graph g, int start) {
         java.util.Queue<Integer> queue = new java.util.LinkedList<>();
         boolean[] visited = new boolean[start + 200];
